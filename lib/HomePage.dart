@@ -4,13 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
+  final _rnd = math.Random();
   @override
   State createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   Color _color;
-  final _rnd = math.Random();
+
+  math.Random get _rnd => widget._rnd;
 
   _updateColor() {
     _color = Color(_rnd.nextInt(0xffffffff));
