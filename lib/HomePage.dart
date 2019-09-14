@@ -49,8 +49,26 @@ class _HomePageState extends State<HomePage> {
 
         if (value != null) {
           _colorGenerator.colorType = value;
-          setState(() => _updateColor);
+          _notify(value, context);
+          setState(_updateColor);
         }
+      },
+      onDoubleTap: () {
+        switch (_colorGenerator.colorType) {
+          case ColorTemperature.cold:
+            _colorGenerator.colorType = ColorTemperature.warm;
+            break;
+
+          case ColorTemperature.warm:
+            _colorGenerator.colorType = ColorTemperature.shadeOfGrey;
+            break;
+
+          case ColorTemperature.shadeOfGrey:
+            _colorGenerator.colorType = ColorTemperature.cold;
+            break;
+        }
+        _notify(_colorGenerator.colorType, context);
+        setState(_updateColor);
       },
     );
   }
@@ -59,6 +77,25 @@ class _HomePageState extends State<HomePage> {
     _colorGenerator.updateColors();
     _color = _colorGenerator.color;
     _textStyle = TextStyle(color: _colorGenerator.contrasting, fontSize: 36.0);
+  }
+
+  _notify(ColorTemperature value, context) {
+    String text;
+    switch (value) {
+      case ColorTemperature.cold:
+        text = 'Cold colors';
+        break;
+      case ColorTemperature.warm:
+        text = 'Warm colors';
+        break;
+      case ColorTemperature.shadeOfGrey:
+        text = 'Grey colors';
+        break;
+    }
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      duration: Duration(milliseconds: 350),
+    ));
   }
 
   Widget _popupMenuItem(String title, ColorTemperature type) {

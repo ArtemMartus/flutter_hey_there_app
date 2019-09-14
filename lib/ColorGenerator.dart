@@ -23,36 +23,38 @@ class ColorGenerator {
     switch (colorType) {
       // 150-270 is cold colors hue angle range
       case ColorTemperature.cold:
-        final hue = (150.0 + _rnd.nextInt(120)) % 350;
-        final alpha = 1.0;
+        final hue = (150.0 + _rnd.nextInt(120)) % 360;
+        final contrastingHue = (hue + 180) % 360;
         final saturation = (_rnd.nextInt(20) + 80.0) / 100;
         final light = (_rnd.nextInt(20) + 80.0) / 100;
 
         _backgroundColor =
-            HSVColor.fromAHSV(alpha, hue, saturation, light).toColor();
-        _contrastingColor = HSVColor.fromAHSV(alpha, hue, 1.0, 0.5).toColor();
+            HSVColor.fromAHSV(1.0, hue, saturation, light).toColor();
+        _contrastingColor =
+            HSVColor.fromAHSV(1.0, contrastingHue, 1.0, 1.0).toColor();
         break;
 
       // 335-50 is warm colors hue angle range
       case ColorTemperature.warm:
-        final hue = (335.0 + _rnd.nextInt(75)) % 350;
-        final alpha = 1.0;
+        final hue = (335.0 + _rnd.nextInt(75)) % 360;
+        final contrastingHue = (hue + 180) % 360;
+
         final saturation = (_rnd.nextInt(20) + 80.0) / 100;
         final light = (_rnd.nextInt(20) + 80.0) / 100;
 
         _backgroundColor =
-            HSVColor.fromAHSV(alpha, hue, saturation, light).toColor();
-        _contrastingColor = HSVColor.fromAHSV(alpha, hue, 1.0, 0.5).toColor();
+            HSVColor.fromAHSV(1.0, hue, saturation, light).toColor();
+        _contrastingColor =
+            HSVColor.fromAHSV(1.0, contrastingHue, 1.0, 1.0).toColor();
         break;
 
       // For grey colors we use all random RGB model
       case ColorTemperature.shadeOfGrey:
-        var contrastingShade = _rnd.nextInt(255);
-        var shade = 255 - contrastingShade;
+        var contrastingShade = _rnd.nextInt(9);
+        var shade = 9 - contrastingShade;
 
-        _backgroundColor = Color.fromARGB(255, shade, shade, shade);
-        _contrastingColor = Color.fromARGB(_rnd.nextInt(50) + 205,
-            contrastingShade, contrastingShade, contrastingShade);
+        _backgroundColor = Colors.grey[shade * 100];
+        _contrastingColor = Colors.grey[contrastingShade * 100];
         break;
 
       default:
