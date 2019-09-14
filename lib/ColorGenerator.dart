@@ -50,8 +50,8 @@ class ColorGenerator {
 
       // For grey colors we use all random RGB model
       case ColorTemperature.shadeOfGrey:
-        var contrastingShade = _rnd.nextInt(9);
-        var shade = 9 - contrastingShade;
+        var contrastingShade = 1 + _rnd.nextInt(8);
+        var shade = (5 + contrastingShade) % 9 + 1;
 
         _backgroundColor = Colors.grey[shade * 100];
         _contrastingColor = Colors.grey[contrastingShade * 100];
