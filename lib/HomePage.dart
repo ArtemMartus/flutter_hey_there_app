@@ -9,25 +9,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _colorGenerator = ColorGenerator();
-  Color _color;
-  TextStyle _textStyle;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateColor();
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => setState(_updateColor),
+      onTap: () => setState(_colorGenerator.updateColors),
       child: Container(
-        color: _color,
+        color: _colorGenerator.color,
         child: Center(
           child: Text(
             'Hey there!',
-            style: _textStyle,
+            style:
+            TextStyle(color: _colorGenerator.contrasting, fontSize: 36.0),
           ),
         ),
       ),
@@ -50,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         if (value != null) {
           _colorGenerator.colorType = value;
           _notify(value, context);
-          setState(_updateColor);
+          setState(_colorGenerator.updateColors);
         }
       },
       onDoubleTap: () {
@@ -68,15 +61,9 @@ class _HomePageState extends State<HomePage> {
             break;
         }
         _notify(_colorGenerator.colorType, context);
-        setState(_updateColor);
+        setState(_colorGenerator.updateColors);
       },
     );
-  }
-
-  void _updateColor() {
-    _colorGenerator.updateColors();
-    _color = _colorGenerator.color;
-    _textStyle = TextStyle(color: _colorGenerator.contrasting, fontSize: 36.0);
   }
 
   _notify(ColorTemperature value, context) {

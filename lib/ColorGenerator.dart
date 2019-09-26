@@ -18,12 +18,15 @@ class ColorGenerator {
 
   Color get contrasting => _contrastingColor;
 
+  ColorGenerator() {
+    updateColors();
+  }
   // Use HSV to get cold and warm colors
   updateColors() {
     switch (colorType) {
       // 150-270 is cold colors hue angle range
       case ColorTemperature.cold:
-        final hue = (150.0 + _rnd.nextInt(120)) % 360;
+        final hue = 150.0 + _rnd.nextInt(120);
         final contrastingHue = (hue + 180) % 360;
         final saturation = (_rnd.nextInt(20) + 80.0) / 100;
         final light = (_rnd.nextInt(20) + 80.0) / 100;
@@ -50,8 +53,11 @@ class ColorGenerator {
 
       // For grey colors we use all random RGB model
       case ColorTemperature.shadeOfGrey:
-        var contrastingShade = 1 + _rnd.nextInt(8);
-        var shade = (5 + contrastingShade) % 9 + 1;
+        final contrastingShade = 1 + _rnd.nextInt(9);
+        final shade = (5 + contrastingShade) % 9 + 1;
+
+        assert(contrastingShade != 0 && contrastingShade != 10);
+        assert(shade != 0 && shade != 10);
 
         _backgroundColor = Colors.grey[shade * 100];
         _contrastingColor = Colors.grey[contrastingShade * 100];
